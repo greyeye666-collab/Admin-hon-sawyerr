@@ -145,8 +145,8 @@ const SpotlightDialog: React.FC<{
       },
       {
         id: 'action-sync',
-        title: 'Sync Live Database',
-        subtitle: 'Pull latest records from remote Supabase cloud',
+        title: 'Refresh Portal Records',
+        subtitle: 'Fetch the latest published updates and constituent inquiries',
         category: 'Actions',
         icon: RefreshCw,
         onSelect: () => onRefresh(),

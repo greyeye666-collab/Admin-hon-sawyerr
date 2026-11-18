@@ -107,7 +107,7 @@ export const GalleryPage: React.FC = () => {
       <SectionHeaderCard
         category="MEDIA ARCHIVE"
         title="Photographic Plates Archive"
-        subtitle="Curate numbered documentary and ceremonial plates stored in the shared media cloud bucket."
+        subtitle="Curate and organize numbered documentary and ceremonial photographs for the public photo gallery."
         icon={Camera}
         iconTone="emerald"
         badge={{

@@ -306,7 +306,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
               <div className="text-[11px] text-stone-400 truncate">{officer.email}</div>
               <div className="flex items-center gap-1.5 mt-1 text-[10px] text-emerald-600 font-semibold">
                 <ShieldCheck className="w-3 h-3" />
-                <span>Live Supabase Auth</span>
+                <span>{officer.isLive ? 'Authorized Staff Session' : 'Local Preview Mode'}</span>
               </div>
             </div>
 
