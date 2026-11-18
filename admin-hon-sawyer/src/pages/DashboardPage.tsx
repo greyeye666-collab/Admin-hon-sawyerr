@@ -5,12 +5,13 @@ import {
   Briefcase,
   FilePlus2,
   Inbox,
+  LayoutDashboard,
   MailCheck,
   Newspaper,
   Plus,
   Sparkles,
 } from 'lucide-react';
-import honSawyerrImg from '../assets/hon-sawyerr-podium.jpg';
+import { SectionHeaderCard } from '../components/layout/SectionHeaderCard';
 import { useCms } from '../lib/cmsContext';
 import { formatTimestampShort } from '../lib/utils';
 import type { AdminRoute } from '../types/database';
@@ -107,35 +108,23 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="space-y-7">
-      {/* Editorial Welcome Masthead */}
-      <section className="bg-white border border-[rgba(17,20,18,0.085)] rounded-2xl overflow-hidden">
-        <div className="p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div className="flex items-start sm:items-center gap-4 sm:gap-5 max-w-2xl">
-            <img
-              src={honSawyerrImg}
-              alt={data.mpProfile.full_name}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover object-top shrink-0 border-2 border-[#007A43]"
-            />
-            <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#007A43]">
-                <span className="w-2 h-2 rounded-full bg-[#007A43]" />
-                <span>Office of Hon. Queenstar Sawyerr — Content Secretariat</span>
-              </div>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#111412] leading-tight">
-                {data.mpProfile.full_name}
-              </h2>
-              <p className="text-sm text-[#636C67] leading-relaxed">
-                {data.mpProfile.role} &bull; {data.mpProfile.party}. All updates published here sync
-                directly with the shared database powering the public website.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2.5 shrink-0">
+      {/* Elevated Section Banner Card matching reference layout */}
+      <SectionHeaderCard
+        category="SECRETARIAT OVERVIEW"
+        title="Editorial Overview & Governance Desk"
+        subtitle={`Official portal for ${data.mpProfile.full_name} (${data.mpProfile.party}) — Member of Parliament, ${data.mpProfile.constituency}. All records sync live to the public constituency platform.`}
+        icon={LayoutDashboard}
+        iconTone="emerald"
+        badge={{
+          text: `Agona East Secretariat`,
+          tone: 'emerald',
+        }}
+        action={
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
               type="button"
               onClick={() => onNavigate('blog', 'new')}
-              className="btn-editorial-primary"
+              className="btn-editorial-primary shrink-0 shadow-sm"
             >
               <Plus className="w-4 h-4" />
               <span>Write Essay</span>
@@ -143,14 +132,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
             <button
               type="button"
               onClick={() => onNavigate('news', 'new')}
-              className="btn-editorial-secondary"
+              className="btn-editorial-secondary shrink-0 shadow-2xs"
             >
               <Plus className="w-4 h-4" />
               <span>New Press Release</span>
             </button>
           </div>
-        </div>
-      </section>
+        }
+      />
 
       {/* Live Metrics Strip */}
       <section aria-label="Live Secretariat Metrics" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">

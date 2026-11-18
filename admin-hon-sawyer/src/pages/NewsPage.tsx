@@ -4,12 +4,14 @@ import {
   ArrowUp,
   Calendar,
   Clock,
+  Newspaper,
   Pencil,
   Plus,
   Search,
   Sparkles,
   Trash2,
 } from 'lucide-react';
+import { SectionHeaderCard } from '../components/layout/SectionHeaderCard';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { MediaUploader } from '../components/ui/MediaUploader';
 import { SlideOverDrawer } from '../components/ui/SlideOverDrawer';
@@ -155,52 +157,85 @@ export const NewsPage: React.FC<NewsPageProps> = ({ openNewIntent }) => {
 
   return (
     <div className="space-y-6">
-      {/* Header & Filter Bar */}
-      <div className="bg-white border border-[rgba(17,20,18,0.085)] rounded-2xl p-5 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 className="font-serif text-xl font-bold text-[#111412]">
-              Press Room &amp; Gazette Wire ({data.newsArticles.length})
-            </h2>
-            <p className="text-xs text-[#636C67]">
-              Toggle <strong>Lead Dispatch</strong> to feature a statement in the left column on
-              the public homepage; the next 3 published items populate the Gazette News Wire.
-            </p>
-          </div>
-          <button type="button" onClick={openNew} className="btn-editorial-primary shrink-0">
+      {/* Elevated Section Banner Card */}
+      <SectionHeaderCard
+        category="COMMUNICATIONS & PRESS"
+        title="Press Room & Gazette Wire"
+        subtitle="Issue authoritative statements, parliamentary updates, and constituency dispatches for public distribution."
+        icon={Newspaper}
+        iconTone="gold"
+        badge={{
+          text: `${data.newsArticles.length} Dispatches Published`,
+          tone: 'gold',
+        }}
+        action={
+          <button
+            type="button"
+            onClick={openNew}
+            className="btn-editorial-primary shrink-0 shadow-sm"
+          >
             <Plus className="w-4 h-4" />
             <span>Publish Press Release</span>
           </button>
-        </div>
+        }
+      />
 
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-3 border-t border-[rgba(17,20,18,0.085)]">
-          <div className="flex flex-wrap gap-1.5">
-            {(['All', ...NEWS_CATEGORIES] as const).map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setCategoryFilter(cat)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
-                  categoryFilter === cat
-                    ? 'bg-[#007A43] text-white'
-                    : 'bg-[#F3F5F3] text-[#2A312D] hover:bg-[#E7EBE7]'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+      {/* Scope, Segmented Pill Filter & Search Bar */}
+      <div className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 space-y-3.5 shadow-xs">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Soft Segmented Pill Tabs */}
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-stone-100/80 border border-stone-200/60">
+            {(['All', ...NEWS_CATEGORIES] as const).map((cat) => {
+              const active = categoryFilter === cat;
+              const count =
+                cat === 'All'
+                  ? data.newsArticles.length
+                  : data.newsArticles.filter((n) => n.category === cat).length;
+
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setCategoryFilter(cat)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    active
+                      ? 'bg-white text-stone-900 shadow-xs'
+                      : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
+                  }`}
+                >
+                  <span>{cat}</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold tabular-nums ${
+                      active
+                        ? 'bg-[#8F651C]/15 text-[#8F651C]'
+                        : 'bg-stone-200 text-stone-500'
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
-          <div className="relative w-full md:w-64">
-            <Search className="w-3.5 h-3.5 text-[#636C67] absolute left-3 top-1/2 -translate-y-1/2" />
+          {/* Search Input Bar */}
+          <div className="relative w-full md:w-72">
+            <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search dispatches…"
-              className="editorial-input pl-8 py-1.5 text-xs"
+              placeholder="Search dispatches or authors…"
+              className="w-full bg-stone-50 hover:bg-white focus:bg-white text-stone-900 placeholder-stone-400 pl-8 pr-3 py-2 text-xs rounded-xl border border-stone-200 focus:border-[#007A43] focus:outline-none transition-all shadow-2xs"
             />
           </div>
+        </div>
+
+        <div className="text-[11px] text-stone-500 flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-[#C9963B]" />
+          <span>
+            Toggle <strong>Lead Dispatch</strong> on any article to feature it prominently in the left hero slot of the public Press Room.
+          </span>
         </div>
       </div>
 

@@ -6,8 +6,10 @@ import {
   EyeOff,
   Pencil,
   Plus,
+  SlidersHorizontal,
   Trash2,
 } from 'lucide-react';
+import { SectionHeaderCard } from '../components/layout/SectionHeaderCard';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { MediaUploader } from '../components/ui/MediaUploader';
 import { SlideOverDrawer } from '../components/ui/SlideOverDrawer';
@@ -160,23 +162,28 @@ export const HeroManagerPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Top Action Bar */}
-      <div className="bg-white border border-[rgba(17,20,18,0.085)] rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h2 className="font-serif text-xl font-bold text-[#111412]">
-            Landing Masthead Slides ({data.heroSlides.length})
-          </h2>
-          <p className="text-xs text-[#636C67] mt-0.5">
-            Supports full-bleed <code className="font-mono">landscape</code> photographs and 2–3
-            column <code className="font-mono">paired-portrait</code> showcases.
-          </p>
-        </div>
-
-        <button type="button" onClick={openNew} className="btn-editorial-primary shrink-0">
-          <Plus className="w-4 h-4" />
-          <span>Add Hero Slide</span>
-        </button>
-      </div>
+      {/* Elevated Section Banner Card */}
+      <SectionHeaderCard
+        category="LANDING PORTAL"
+        title="Hero Carousel & Masthead"
+        subtitle="Curate the headline carousel slides, priority order, badges, and paired portrait layouts displayed on the public landing page."
+        icon={SlidersHorizontal}
+        iconTone="emerald"
+        badge={{
+          text: `${data.heroSlides.length} Total Slides`,
+          tone: 'emerald',
+        }}
+        action={
+          <button
+            type="button"
+            onClick={openNew}
+            className="btn-editorial-primary shrink-0 shadow-sm"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add Hero Slide</span>
+          </button>
+        }
+      />
 
       {/* Slides List */}
       <div className="space-y-3">

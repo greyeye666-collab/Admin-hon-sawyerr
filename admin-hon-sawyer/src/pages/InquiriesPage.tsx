@@ -3,6 +3,7 @@ import {
   CheckCircle2,
   Clock,
   Download,
+  Inbox,
   Mail,
   MapPin,
   Phone,
@@ -10,6 +11,7 @@ import {
   Trash2,
   UserPlus,
 } from 'lucide-react';
+import { SectionHeaderCard } from '../components/layout/SectionHeaderCard';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { SlideOverDrawer } from '../components/ui/SlideOverDrawer';
 import { useToast } from '../components/ui/toastContext';
@@ -108,49 +110,76 @@ export const InquiriesPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Segmented Tabs */}
+      {/* Elevated Section Banner Card */}
+      <SectionHeaderCard
+        category="CONSTITUENT SECRETARIAT"
+        title="Constituent Secretariat & Inquiries"
+        subtitle="Triage citizen messages by town and category, manage community volunteer offers, and export newsletter subscriber dispatches."
+        icon={Inbox}
+        iconTone="emerald"
+        badge={{
+          text: `${newCount} Unread Cases`,
+          tone: newCount > 0 ? 'red' : 'emerald',
+        }}
+        action={
+          tab === 'subscribers' ? (
+            <button
+              type="button"
+              onClick={() => {
+                exportSubscribersCsv(filteredSubscribers);
+                showToast('Subscribers Exported', {
+                  description: `${filteredSubscribers.length} rows written to CSV.`,
+                });
+              }}
+              className="btn-editorial-primary shrink-0 shadow-sm"
+            >
+              <Download className="w-4 h-4" />
+              <span>Export Subscribers CSV</span>
+            </button>
+          ) : undefined
+        }
+      />
+
+      {/* Segmented Soft Pill Tabs (matching reference image: ▷ Send Bulk SMS, Sender IDs (0), History (1)) */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div
           role="tablist"
           aria-label="Constituent Secretariat Views"
-          className="inline-flex gap-1.5 p-1.5 rounded-2xl bg-white border border-[rgba(17,20,18,0.085)]"
+          className="inline-flex gap-1.5 p-1 rounded-xl bg-stone-100/80 border border-stone-200/60 shadow-2xs"
         >
           <button
             role="tab"
             aria-selected={tab === 'inbox'}
             type="button"
             onClick={() => setTab('inbox')}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               tab === 'inbox'
-                ? 'bg-[#007A43] text-white'
-                : 'text-[#2A312D] hover:bg-[#F3F5F3]'
+                ? 'bg-white text-stone-900 shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
             }`}
           >
+            <Inbox className="w-3.5 h-3.5" />
             <span>Constituent Inquiries Inbox</span>
             {newCount > 0 && (
-              <span
-                className={`px-2 py-0.5 rounded-full text-[11px] font-bold tabular-nums ${
-                  tab === 'inbox'
-                    ? 'bg-white/20 text-white'
-                    : 'bg-[#D61F33]/12 text-[#D61F33]'
-                }`}
-              >
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold tabular-nums bg-rose-100 text-rose-700">
                 {newCount} new
               </span>
             )}
           </button>
+
           <button
             role="tab"
             aria-selected={tab === 'subscribers'}
             type="button"
             onClick={() => setTab('subscribers')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               tab === 'subscribers'
-                ? 'bg-[#007A43] text-white'
-                : 'text-[#2A312D] hover:bg-[#F3F5F3]'
+                ? 'bg-white text-stone-900 shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
             }`}
           >
-            Dispatch Subscribers ({data.newsletterSubscribers.length})
+            <Mail className="w-3.5 h-3.5" />
+            <span>Newsletter Subscribers ({data.newsletterSubscribers.length})</span>
           </button>
         </div>
       </div>

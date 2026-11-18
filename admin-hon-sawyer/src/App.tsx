@@ -97,6 +97,9 @@ const AdminWorkspace: React.FC<{
           loading={loading}
           onRefresh={() => void refreshAll()}
           onOpenMobileMenu={() => setMobileMenuOpen(true)}
+          onNavigate={(route, intent) => navigate(route, intent)}
+          officer={officer}
+          onSignOut={onSignOut}
         />
 
         <main className="flex-1 p-5 lg:p-8 max-w-7xl w-full mx-auto">

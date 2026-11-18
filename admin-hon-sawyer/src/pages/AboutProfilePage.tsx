@@ -6,8 +6,10 @@ import {
   Plus,
   Save,
   Trash2,
+  UserCheck,
   X,
 } from 'lucide-react';
+import { SectionHeaderCard } from '../components/layout/SectionHeaderCard';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { CoreValueIcon } from '../components/ui/CoreValueIcon';
 import { MediaUploader } from '../components/ui/MediaUploader';
@@ -146,11 +148,24 @@ export const AboutProfilePage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Segmented Navigation Strip */}
+      {/* Elevated Section Banner Card */}
+      <SectionHeaderCard
+        category="PARLIAMENTARY DOSSIER"
+        title="About, Profile & Governance Stats"
+        subtitle="Manage Hon. Queenstar Sawyerr's parliamentary biography, attestation bar, constituency towns, and milestone timeline."
+        icon={UserCheck}
+        iconTone="emerald"
+        badge={{
+          text: 'Verified Parliamentary Bio',
+          tone: 'emerald',
+        }}
+      />
+
+      {/* Segmented Soft Pill Tabs (matching reference image) */}
       <div
         role="tablist"
         aria-label="About and Profile Sections"
-        className="inline-flex flex-wrap gap-1.5 p-1.5 rounded-2xl bg-white border border-[rgba(17,20,18,0.085)]"
+        className="inline-flex flex-wrap gap-1.5 p-1 rounded-xl bg-stone-100/80 border border-stone-200/60 shadow-2xs"
       >
         {tabs.map((t) => (
           <button
@@ -159,10 +174,10 @@ export const AboutProfilePage: React.FC = () => {
             aria-selected={tab === t.id}
             type="button"
             onClick={() => setTab(t.id)}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               tab === t.id
-                ? 'bg-[#007A43] text-white'
-                : 'text-[#2A312D] hover:bg-[#F3F5F3]'
+                ? 'bg-white text-stone-900 shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
             }`}
           >
             {t.label}

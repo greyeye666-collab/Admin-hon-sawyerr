@@ -3,6 +3,7 @@ import {
   ArrowDown,
   ArrowUp,
   BookOpen,
+  BookOpenText,
   Calendar,
   Clock,
   Eye,
@@ -12,6 +13,7 @@ import {
   Sparkles,
   Trash2,
 } from 'lucide-react';
+import { SectionHeaderCard } from '../components/layout/SectionHeaderCard';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { MediaUploader } from '../components/ui/MediaUploader';
 import { SlideOverDrawer } from '../components/ui/SlideOverDrawer';
@@ -181,37 +183,44 @@ export const BlogPage: React.FC<BlogPageProps> = ({ openNewIntent }) => {
 
   return (
     <div className="space-y-6">
-      {/* Studio Header & Filters */}
-      <div className="bg-white border border-[rgba(17,20,18,0.085)] rounded-2xl p-5 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 className="font-serif text-xl font-bold text-[#111412]">
-              The MP&apos;s Notebook — Editorial Studio ({data.blogPosts.length})
-            </h2>
-            <p className="text-xs text-[#636C67]">
-              Long-form essays with live drop-cap &amp; pull-quote preview matching{' '}
-              <code className="font-mono">BlogDetailPage</code>.
-            </p>
-          </div>
-          <button type="button" onClick={openNew} className="btn-editorial-primary shrink-0">
+      {/* Elevated Section Banner Card */}
+      <SectionHeaderCard
+        category="EDITORIAL STUDIO"
+        title="The MP's Notebook"
+        subtitle="Compose long-form essays, reflections, and policy perspectives with drop-caps, pull-quotes, and responsive reading measures."
+        icon={BookOpenText}
+        iconTone="emerald"
+        badge={{
+          text: `${data.blogPosts.length} Essays (${data.blogPosts.filter((b) => b.status === 'draft').length} Drafts)`,
+          tone: 'emerald',
+        }}
+        action={
+          <button
+            type="button"
+            onClick={openNew}
+            className="btn-editorial-primary shrink-0 shadow-sm"
+          >
             <Plus className="w-4 h-4" />
-            <span>Write New Blog Essay</span>
+            <span>Write New Essay</span>
           </button>
-        </div>
+        }
+      />
 
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3 pt-3 border-t border-[rgba(17,20,18,0.085)]">
+      {/* Scope, Segmented Pill Filter & Search Bar */}
+      <div className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 space-y-3.5 shadow-xs">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
-            {/* Status Filter */}
-            <div className="inline-flex p-1 rounded-xl bg-[#F3F5F3] border border-[rgba(17,20,18,0.08)]">
+            {/* Status Segmented Pill */}
+            <div className="inline-flex p-1 rounded-xl bg-stone-100/80 border border-stone-200/60">
               {(['all', 'published', 'draft'] as const).map((st) => (
                 <button
                   key={st}
                   type="button"
                   onClick={() => setStatusFilter(st)}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all cursor-pointer ${
                     statusFilter === st
-                      ? 'bg-white text-[#111412]'
-                      : 'text-[#636C67] hover:text-[#111412]'
+                      ? 'bg-white text-stone-900 shadow-xs'
+                      : 'text-stone-600 hover:text-stone-900'
                   }`}
                 >
                   {st}
@@ -219,17 +228,17 @@ export const BlogPage: React.FC<BlogPageProps> = ({ openNewIntent }) => {
               ))}
             </div>
 
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-1.5">
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap gap-1.5 p-1 rounded-xl bg-stone-100/80 border border-stone-200/60">
               {(['All', ...BLOG_CATEGORIES] as const).map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setCategoryFilter(cat)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     categoryFilter === cat
-                      ? 'bg-[#007A43] text-white'
-                      : 'bg-[#F3F5F3] text-[#2A312D] hover:bg-[#E7EBE7]'
+                      ? 'bg-white text-stone-900 shadow-xs'
+                      : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
                   }`}
                 >
                   {cat}
@@ -238,16 +247,24 @@ export const BlogPage: React.FC<BlogPageProps> = ({ openNewIntent }) => {
             </div>
           </div>
 
-          <div className="relative w-full xl:w-64">
-            <Search className="w-3.5 h-3.5 text-[#636C67] absolute left-3 top-1/2 -translate-y-1/2" />
+          {/* Search Input */}
+          <div className="relative w-full xl:w-72">
+            <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search essays or tags…"
-              className="editorial-input pl-8 py-1.5 text-xs"
+              placeholder="Search essays, tags or themes…"
+              className="w-full bg-stone-50 hover:bg-white focus:bg-white text-stone-900 placeholder-stone-400 pl-8 pr-3 py-2 text-xs rounded-xl border border-stone-200 focus:border-[#007A43] focus:outline-none transition-all shadow-2xs"
             />
           </div>
+        </div>
+
+        <div className="text-[11px] text-stone-500 flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-[#007A43]" />
+          <span>
+            Essays marked <strong>Featured</strong> are pinned to the cover story of The MP&apos;s Notebook section.
+          </span>
         </div>
       </div>
 
